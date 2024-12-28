@@ -48,7 +48,7 @@ jobs:
         with:
           name: build
           path: api
-      - run: mix deps.get
+      - run: mix deps.get --only --no-archives-check
       - run: mix test --all-warnings --warnings-as-errors
 
   credo:
@@ -69,7 +69,7 @@ jobs:
         with:
           name: build
           path: api
-      - run: mix deps.get
+      - run: mix deps.get --only --no-archives-check
       - run: mix credo -a --strict
 
   dialyzer:
@@ -90,5 +90,5 @@ jobs:
         with:
           name: build
           path: api
-      - run: mix deps.get
+      - run: mix deps.get --only --no-archives-check
       - run: mix dialyzer
