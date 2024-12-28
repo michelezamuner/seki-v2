@@ -47,7 +47,7 @@ jobs:
           name: build
           path: api
       - run: mix deps.get
-      - run: mix test --all-warnings --no-deps-check --warnings-as-errors
+      - run: mix test --all-warnings --warnings-as-errors
 
   credo:
     name: Credo
