@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v.1.17
+      - uses: erlef/setup-beam@v1.17
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v.1.17
+      - uses: erlef/setup-beam@v1.17
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
@@ -48,7 +48,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v.1.17
+      - uses: erlef/setup-beam@v1.17
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
