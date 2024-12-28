@@ -16,6 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: chetan/git-restore-mtime-action@v2
       - uses: erlef/setup-beam@v1.17
         with:
           elixir-version: "1.17"
@@ -40,6 +41,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: chetan/git-restore-mtime-action@v2
       - uses: erlef/setup-beam@v1.17
         with:
           elixir-version: "1.17"
@@ -48,7 +50,7 @@ jobs:
         with:
           name: build
           path: api
-      - run: mix deps.get --only --no-archives-check
+      #- run: mix deps.get --only --no-archives-check
       - run: mix test --all-warnings --warnings-as-errors
 
   credo:
@@ -61,6 +63,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: chetan/git-restore-mtime-action@v2
       - uses: erlef/setup-beam@v1.17
         with:
           elixir-version: "1.17"
@@ -69,7 +72,7 @@ jobs:
         with:
           name: build
           path: api
-      - run: mix deps.get --only --no-archives-check
+      #- run: mix deps.get --only --no-archives-check
       - run: mix credo -a --strict
 
   dialyzer:
@@ -82,6 +85,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: chetan/git-restore-mtime-action@v2
       - uses: erlef/setup-beam@v1.17
         with:
           elixir-version: "1.17"
@@ -90,5 +94,5 @@ jobs:
         with:
           name: build
           path: api
-      - run: mix deps.get --only --no-archives-check
+      #- run: mix deps.get --only --no-archives-check
       - run: mix dialyzer
