@@ -33,7 +33,7 @@ jobs:
           mix compile --all-warnings --warnings-as-errors
 
       - if: steps.mix-cache.outputs.cache-hit != 'true'
-        uses: action/cache/save@v4
+        uses: actions/cache/save@v4
         with:
           path: |
             api/_build
@@ -63,7 +63,7 @@ jobs:
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
-      - uses: action/cache@v4
+      - uses: actions/cache@v4
         with:
           path: |
             api/_build
@@ -85,7 +85,7 @@ jobs:
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
-      - uses: action/cache@v4
+      - uses: actions/cache@v4
         with:
           path: |
             api/_build
@@ -107,7 +107,7 @@ jobs:
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
-      - uses: action/cache@v4
+      - uses: actions/cache@v4
         with:
           path: |
             api/_build
@@ -129,7 +129,7 @@ jobs:
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
-      - uses: action/cache@v4
+      - uses: actions/cache@v4
         with:
           path: |
             api/_build
