@@ -1,0 +1,12 @@
+{
+  "name": "seki",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "serve": "npx serve --no-clipboard --listen 8000"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "serve": "14"
+  }
+}
