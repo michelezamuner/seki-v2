@@ -20,16 +20,56 @@ jobs:
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
-      - run: mix deps.get --check
-      - run: mix do deps.compile + compile --all-warnings --warnings-as-errors
-      - uses: actions/upload-artifact@v4
+      - id: mix-cache
+        uses: actions/cache/restore@v4
         with:
-          name: build
-          if-no-files-found: error
           path: |
             api/_build
             api/deps
-          include-hidden-files: true
+          key: ${{ runner.os }}-${{ hashFiles('mix.lock') }}
+      - if: steps.mix-cache.outputs.cache-hit != 'true'
+        run: |
+          mix deps.get --check
+          mix compile --all-warnings --warnings-as-errors
+
+      - if: steps.mix-cache.outputs.cache-hit != 'true'
+        uses: action/cache/save@v4
+        with:
+          path: |
+            api/_build
+            api/deps
+          key: ${{ runner.os }}-${{ hashFiles('mix.lock') }}
+      #- run: mix deps.get --check
+      #- run: mix compile --all-warnings --warnings-as-errors
+      #- uses: actions/upload-artifact@v4
+      #  with:
+      #    name: build
+      #    if-no-files-found: error
+      #    path: |
+      #      api/_build
+      #      api/deps
+      #    include-hidden-files: true
+
+  format:
+    name: Check format
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1.17
+        with:
+          elixir-version: "1.17"
+          otp-version: "27.0"
+      - uses: action/cache@v4
+        with:
+          path: |
+            api/_build
+            api/deps
+          key: ${{ runner.os }}-${{ hashFiles('mix.lock') }}
+      - run: mix format --check-formatted
 
   test:
     name: Test
@@ -41,16 +81,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: chetan/git-restore-mtime-action@v2
       - uses: erlef/setup-beam@v1.17
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
-      - uses: actions/download-artifact@v4
+      - uses: action/cache@v4
         with:
-          name: build
-          path: api
-      - run: mix deps.compile
+          path: |
+            api/_build
+            api/deps
+          key: ${{ runner.os }}-${{ hashFiles('mix.lock') }}
       - run: mix test --all-warnings --warnings-as-errors
 
   credo:
@@ -63,16 +103,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: chetan/git-restore-mtime-action@v2
       - uses: erlef/setup-beam@v1.17
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
-      - uses: actions/download-artifact@v4
+      - uses: action/cache@v4
         with:
-          name: build
-          path: api
-      - run: mix deps.compile
+          path: |
+            api/_build
+            api/deps
+          key: ${{ runner.os }}-${{ hashFiles('mix.lock') }}
       - run: mix credo -a --strict
 
   dialyzer:
@@ -85,14 +125,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: chetan/git-restore-mtime-action@v2
       - uses: erlef/setup-beam@v1.17
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
-      - uses: actions/download-artifact@v4
+      - uses: action/cache@v4
         with:
-          name: build
-          path: api
-      - run: mix deps.compile
+          path: |
+            api/_build
+            api/deps
+          key: ${{ runner.os }}-${{ hashFiles('mix.lock') }}
       - run: mix dialyzer
