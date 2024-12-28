@@ -21,7 +21,8 @@ jobs:
           elixir-version: "1.17"
           otp-version: "27.0"
       - run: mix deps.get --check
-      - run: mix compile --no-deps-check --warnings-as-errors
+      - run: mix test
+      #- run: mix compile --no-deps-check --warnings-as-errors
       - uses: actions/upload-artifact@v4
         with:
           name: build
