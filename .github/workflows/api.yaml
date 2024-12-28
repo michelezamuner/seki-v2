@@ -1,0 +1,56 @@
+name: API
+
+on:
+  push:
+    paths:
+      - ".github/**"
+      - "api/**"
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v.1.17
+        with:
+          elixir-version: "1.17"
+          otp-version: "27.0"
+      - run: mix deps.get
+      - run: mix test
+
+  credo:
+    name: Credo
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v.1.17
+        with:
+          elixir-version: "1.17"
+          otp-version: "27.0"
+      - run: mix deps.get
+      - run: mix credo -a --strict
+
+  dialyzer:
+    name: Dialyzer
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v.1.17
+        with:
+          elixir-version: "1.17"
+          otp-version: "27.0"
+      - run: mix deps.get
+      - run: mix dialyzer
