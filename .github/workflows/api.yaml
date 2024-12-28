@@ -47,6 +47,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: build
+      - run: ls -la
       - run: mix test --all-warnings --warnings-as-errors
 
   credo:
