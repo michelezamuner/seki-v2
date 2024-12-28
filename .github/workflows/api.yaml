@@ -126,4 +126,4 @@ jobs:
             api/_build
             api/deps
           key: ${{ runner.os }}-${{ hashFiles('mix.lock') }}
-      - run: mix dialyzer --no-check
+      - run: mix dialyzer
