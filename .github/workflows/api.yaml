@@ -7,8 +7,8 @@ on:
       - "api/**"
 
 jobs:
-  test:
-    name: Test
+  build:
+    name: Build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -20,7 +20,28 @@ jobs:
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
-      - run: mix deps.get
+      - run: mix deps.get --check
+      - run: mix compile --no-deps-check --warnings-as-errors
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build
+          if-no-files-found: error
+          path: _build
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: _build
       - run: mix test
 
   credo:
@@ -29,14 +50,14 @@ jobs:
     defaults:
       run:
         working-directory: ./api
+    needs: build
 
     steps:
       - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1.17
+      - uses: actions/download-artifact@v4
         with:
-          elixir-version: "1.17"
-          otp-version: "27.0"
-      - run: mix deps.get
+          name: build
+          path: _build
       - run: mix credo -a --strict
 
   dialyzer:
@@ -45,12 +66,12 @@ jobs:
     defaults:
       run:
         working-directory: ./api
+    needs: build
 
     steps:
       - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1.17
+      - uses: actions/download-artifact@v4
         with:
-          elixir-version: "1.17"
-          otp-version: "27.0"
-      - run: mix deps.get
+          name: build
+          path: _build
       - run: mix dialyzer
