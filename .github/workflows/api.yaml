@@ -29,6 +29,7 @@ jobs:
           path: |
             api/_build
             api/deps
+            api/mix.lock
 
   test:
     name: Test
