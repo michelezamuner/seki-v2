@@ -3,6 +3,8 @@ services:
     container_name: e2e
     image: cypress/included:latest
     working_dir: /app
+    profiles:
+      - e2e
     volumes:
       - ./e2e:/app
     depends_on:
@@ -32,7 +34,8 @@ services:
       - "8000:8000"
     volumes:
       - ./web:/app
-    command: ["sh", "./entrypoint.sh"]
+    entrypoint: ./entrypoint.sh
+    #command: ["sh", "./entrypoint.sh"]
 
   api:
     container_name: api
@@ -42,4 +45,5 @@ services:
       - "4000:4000"
     volumes:
       - ./api:/app
-    command: ["sh", "./entrypoint.sh"]
+    entrypoint: ./entrypoint.sh
+    #command: ["sh", "./entrypoint.sh"]
