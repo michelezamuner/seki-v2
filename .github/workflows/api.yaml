@@ -22,8 +22,8 @@ jobs:
           otp-version: "27.0"
       - run: mix deps.get --check
       #- run: mix compile --all-warnings --no-deps-check --warnings-as-errors
+      - run: mix compile --all-warnings --warnings-as-errors
       - run: ls -la
-      - run: mix compile --all-warnings
       - uses: actions/upload-artifact@v4
         with:
           name: deps
