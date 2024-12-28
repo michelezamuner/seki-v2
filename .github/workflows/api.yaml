@@ -16,13 +16,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: chetan/git-restore-mtime-action@v2
       - uses: erlef/setup-beam@v1.17
         with:
           elixir-version: "1.17"
           otp-version: "27.0"
       - run: mix deps.get --check
-      - run: mix compile --all-warnings --warnings-as-errors
+      - run: mix do deps.compile + compile --all-warnings --warnings-as-errors
       - uses: actions/upload-artifact@v4
         with:
           name: build
@@ -50,7 +49,7 @@ jobs:
         with:
           name: build
           path: api
-      #- run: mix deps.get --only --no-archives-check
+      - run: mix deps.compile
       - run: mix test --all-warnings --warnings-as-errors
 
   credo:
@@ -72,7 +71,7 @@ jobs:
         with:
           name: build
           path: api
-      #- run: mix deps.get --only --no-archives-check
+      - run: mix deps.compile
       - run: mix credo -a --strict
 
   dialyzer:
@@ -94,5 +93,5 @@ jobs:
         with:
           name: build
           path: api
-      #- run: mix deps.get --only --no-archives-check
+      - run: mix deps.compile
       - run: mix dialyzer
