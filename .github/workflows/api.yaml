@@ -50,7 +50,7 @@ jobs:
           name: build
           path: api
       - run: ls -la
-      - run: mix test --all-warnings --warnings-as-errors
+      - run: mix test --all-warnings --no-deps-check --warnings-as-errors
 
   credo:
     name: Credo
