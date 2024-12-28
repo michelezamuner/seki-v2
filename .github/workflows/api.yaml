@@ -47,10 +47,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: build
-          path: |
-            api/_build
-            api/deps
-      - run: mix test --all-warnings --no-deps-check --warnings-as-errors
+      - run: mix test --all-warnings --warnings-as-errors
 
   credo:
     name: Credo
@@ -69,9 +66,6 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: build
-          path: |
-            api/_build
-            api/deps
       - run: mix credo -a --strict
 
   dialyzer:
@@ -91,7 +85,4 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: build
-          path: |
-            api/_build
-            api/deps
       - run: mix dialyzer
