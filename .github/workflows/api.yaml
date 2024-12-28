@@ -29,8 +29,8 @@ jobs:
           name: build
           if-no-files-found: error
           path: |
-            ./_build
-            ./deps
+            api/_build
+            api/deps
 
   test:
     name: Test
@@ -46,8 +46,8 @@ jobs:
         with:
           name: build
           path: |
-            ./_build
-            ./deps
+            api/_build
+            api/deps
       - run: mix test --all-warnings --no-deps-check --warnings-as-errors
 
   credo:
@@ -62,8 +62,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: deps
-          path: deps
+          name: build
+          path: |
+            api/_build
+            api/deps
       - run: mix credo -a --strict
 
   dialyzer:
@@ -78,6 +80,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: deps
-          path: deps
+          name: build
+          path: |
+            api/_build
+            api/deps
       - run: mix dialyzer
