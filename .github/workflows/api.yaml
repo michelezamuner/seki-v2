@@ -26,10 +26,7 @@ jobs:
         with:
           name: build
           if-no-files-found: error
-          path: |
-            api/_build
-            api/deps
-            api/mix.lock
+          path: api/_build
 
   test:
     name: Test
@@ -49,7 +46,7 @@ jobs:
         with:
           name: build
           path: api
-      - run: ls -la
+      - run: mix deps.get
       - run: mix test --all-warnings --no-deps-check --warnings-as-errors
 
   credo:
@@ -70,6 +67,7 @@ jobs:
         with:
           name: build
           path: api
+      - run: mix deps.get
       - run: mix credo -a --strict
 
   dialyzer:
@@ -90,4 +88,5 @@ jobs:
         with:
           name: build
           path: api
+      - run: mix deps.get
       - run: mix dialyzer
