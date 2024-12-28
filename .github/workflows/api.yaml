@@ -39,16 +39,6 @@ jobs:
             api/_build
             api/deps
           key: ${{ runner.os }}-${{ hashFiles('mix.lock') }}
-      #- run: mix deps.get --check
-      #- run: mix compile --all-warnings --warnings-as-errors
-      #- uses: actions/upload-artifact@v4
-      #  with:
-      #    name: build
-      #    if-no-files-found: error
-      #    path: |
-      #      api/_build
-      #      api/deps
-      #    include-hidden-files: true
 
   format:
     name: Check format
@@ -56,6 +46,7 @@ jobs:
     defaults:
       run:
         working-directory: ./api
+    needs: build
 
     steps:
       - uses: actions/checkout@v4
@@ -135,4 +126,4 @@ jobs:
             api/_build
             api/deps
           key: ${{ runner.os }}-${{ hashFiles('mix.lock') }}
-      - run: mix dialyzer
+      - run: mix dialyzer --no-check
