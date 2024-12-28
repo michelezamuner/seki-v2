@@ -21,13 +21,12 @@ jobs:
           elixir-version: "1.17"
           otp-version: "27.0"
       - run: mix deps.get --check
-      - run: ls -la
       - run: mix compile --all-warnings --no-deps-check --warnings-as-errors
       - uses: actions/upload-artifact@v4
         with:
-          name: build
+          name: deps
           if-no-files-found: error
-          path: _build
+          path: deps
 
   test:
     name: Test
@@ -41,9 +40,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: build
-          path: _build
-      - run: mix test
+          name: deps
+          path: deps
+      - run: mix test --all-warnings --no-deps-check --warnings-as-errors
 
   credo:
     name: Credo
@@ -57,8 +56,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: build
-          path: _build
+          name: deps
+          path: deps
       - run: mix credo -a --strict
 
   dialyzer:
@@ -73,6 +72,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: build
-          path: _build
+          name: deps
+          path: deps
       - run: mix dialyzer
