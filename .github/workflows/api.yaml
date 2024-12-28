@@ -22,8 +22,6 @@ jobs:
           otp-version: "27.0"
       - run: mix deps.get --check
       - run: mix compile --all-warnings --warnings-as-errors
-      - run: pwd
-      - run: ls -la
       - uses: actions/upload-artifact@v4
         with:
           name: build
@@ -42,6 +40,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1.17
+        with:
+          elixir-version: "1.17"
+          otp-version: "27.0"
       - uses: actions/download-artifact@v4
         with:
           name: build
@@ -60,6 +62,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1.17
+        with:
+          elixir-version: "1.17"
+          otp-version: "27.0"
       - uses: actions/download-artifact@v4
         with:
           name: build
@@ -78,6 +84,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1.17
+        with:
+          elixir-version: "1.17"
+          otp-version: "27.0"
       - uses: actions/download-artifact@v4
         with:
           name: build
